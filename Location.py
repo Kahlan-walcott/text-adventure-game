@@ -57,7 +57,7 @@ class Location:
         """Returns a string of the description and what the user sees in the location. it also returns a string of
                 what location the user is in."""
         if self.item is not None:  # when there is an item
-            first_str = f'you are {self.get_description()} \n' + f'You see {self.item}'
+            first_str = f'You are {self.get_description()} \n' + f'You see {self.item}'
             return first_str
         else: # when there is not an item
-            return f'you are {self.description}'  # you see no item (might want?)
+            return f'You are {self.description}'  # you see no item (might want?)

@@ -1,15 +1,16 @@
 """
 Kahlan Walcott
-The escape game follows, you, an adventurer, who was abruptly brought to an old forgotten castle while you were
-sleeping. you now have to travel throughout the castle to find the key and bring it back to the starting location.
-
-I certify that this code is mine, and mine alone, in accordance with GVSU academic honesty policy.
-12/07/2023
+The escape game follows, you, an adventurer, who was abruptly brought to
+an old forgotten castle while you were sleeping. 
+You now have to travel throughout the castle to find the key 
+and bring it back to the starting location.
+04/26/2025
 """
 
 
 class Item:
-    """The class keeps track of the items and the attributes of them."""
+    """The class keeps track of the items names, descriptions, weight, 
+    and its ability to be eaten or not."""
     def __init__(self, name='', desc='', weight=0, edible=False):
         self.name = name
         self. description = desc
@@ -21,8 +22,7 @@ class Item:
         return self.description
 
     def is_edible(self):
-        """Determines if the item is edible or not. If it is edible True is returned, if not
-            False is returned."""
+        """Determines if the item is edible or not."""
         if self.edible:
             return True
         else:

@@ -14,8 +14,7 @@ from Location import Location
 
 
 class Game:
-    """This class keeps trak of the items in a location and when they 
-    have been picked up, dropped, or eaten. It also allows 
+    """This class keeps trak of the items in a location and when they have been picked up, dropped, or eaten. It also allows 
     the game to be played by a user or an auto win feature."""
     def __init__(self):
         self.lis_item = []
@@ -35,8 +34,7 @@ class Game:
         return self.current_loc
 
     def create_world(self):
-        """Keeps track of all the attributes of the items, locations, 
-        and neighbors in the castle."""
+        """Keeps track of all the attributes of the items, locations, and neighbors in the castle."""
         # items
         self.sword = Item('sword', 'a old and well used sword that has a green emerald on it.', 8, False)
         self.key = Item('key', 'a shiny and silver key.', 2, False)
@@ -78,8 +76,7 @@ class Game:
         self.war_room.add_neighbor('up', self.ballroom)
 
     def go(self, dirs):
-        """Keeps track of the current location and replaces it with 
-        where the user moves next."""
+        """Keeps track of the current location and replaces it with where the user moves next."""
         next_loc = self.current_loc.get_neighbor(dirs)
         if next_loc is None:
             self.int_message = 'You can\'t move in this direction.'
@@ -90,8 +87,7 @@ class Game:
             self.int_message = self.current_loc.__str__()
 
     def set_welcome_message(self):
-        """Sets the initial message to the description 
-        and goal of the game and the commands that can be used."""
+        """Sets the initial message to the description and goal of the game and the commands that can be used."""
         self.int_message = ('You, an adventurer, were tired after your journey, so you found a tree to take a nap by. '
                             'When you awoke you are no longer in the forest, but you are in a \nbedroom of an '
                             'old forgotten castle that you must find your way out of.'
@@ -107,7 +103,7 @@ class Game:
                             'lay: allows you to lay in the bed\n')
 
     def parse_command(self):
-        """Gets input from the user and splits it into two words"""
+        """Gets input from the user and splits it into two words."""
         words = input('Enter>>> ').split()
         first = words[0].lower()
         if len(words) > 1:
@@ -119,8 +115,7 @@ class Game:
         return first, second
 
     def start(self):
-        """Controls the entire game and what to do for the valid or 
-        invalid inputs from the user."""
+        """Controls the entire game and what to do for the valid or invalid inputs from the user."""
         print(self.get_message())
         first, second = self.parse_command()
         self.first = first
@@ -168,6 +163,8 @@ class Game:
             elif first == 'lay':
                 # allows the user to lay down at the location if they can
                 self.lay_in_bed()
+                 if self.current_loc != self.bedroom:
+                    print('There is nothing for you to lay on here.')
 
             elif first == 'drop' and second == 'sandwich' or second == 'key' or second == 'sword':
                 print(self.drop(second))
@@ -232,11 +229,14 @@ class Game:
 
         elif self.current_loc == self.bedroom:  
             # updates the message to what the user can do in the bedroom and where to go next
-            self.int_message = ('There is nothing for you here. Go to another room.'
-                                '\nDirections:'
-                                '\nNorth: Attic'
-                                '\nSouth: Library'
-                                '\nWest: Bathroom')
+            if self.key not in self.lis_item:
+                self.int_message = ('There is nothing for you here. Go to another room.'
+                                    '\nDirections:'
+                                    '\nNorth: Attic'
+                                    '\nSouth: Library'
+                                    '\nWest: Bathroom')
+            if self.key in self.lis_item:
+                self.int_message = 'Type lay to complete the game.'
 
         elif self.current_loc == self.ballroom:  
             # updates the message to what the user can do in the ballroom and where to go next
@@ -268,8 +268,7 @@ class Game:
         return statement
 
     def pickup(self):
-        """Keeps track of if an item is in the location the user is in 
-        and returns the appropriate message"""
+        """Keeps track of if an item is in the location the user is in and returns the appropriate message"""
         if self.current_loc.has_item():
             # checks if the current location has an item and returns the items name that the user picked up.
             self.int_message = f'You are holding a {self.current_loc.get_item().get_name()}'
@@ -343,7 +342,6 @@ class Game:
             print('You are laying in the bed.')
             return True
         else:  
-            print('There is nothing for you to lay on here.')
             return False
 
     def auto_win(self):

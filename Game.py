@@ -175,7 +175,7 @@ class Game:
             elif first == 'list':  
                 # allows the user to see what is in their inventory
                 print(self.list())
-            elif first == 'eat':  
+            elif first == 'eat' and second == 'sandwich':  
                 # allows the user to eat an edible item
                 print(self.eat(second))
 
@@ -197,14 +197,12 @@ class Game:
             self.second = second
 
     def look(self):
-        """Updates the message with the current locations 
-        description and then returns it"""
+        """Updates the message with the current locations description and then returns it"""
         self.int_message = self.current_loc.get_description()
         return {self.int_message}
 
     def help(self):
-        """Accounts for any hints the user may need 
-        while playing the game"""
+        """Accounts for any hints the user may need while playing the game"""
         if self.current_loc == self.maids_chamber:  
             # updates that message to what the user can do in the maids chamber and where to go next
             self.int_message = ('There is nothing for you here. Go to another room.'
@@ -298,8 +296,7 @@ class Game:
             return f'You are not holding a {name}'
 
     def search_pouch(self, name):
-        """Checks the list for the item the user is trying to do 
-        something with."""
+        """Checks the list for the item the user is trying to do something with."""
         for i in self.lis_item:
             if i.get_name().lower() == name:  # runs if the thing in the list matches what the user wants
                 return i
@@ -312,11 +309,11 @@ class Game:
             # When the item is in the list that matches what the user wants
             if item.is_edible():  
                 self.lis_item.remove(item)
-                self.int_message = f'You ate a yummy piece of {item.get_name()}'
+                self.int_message = f'You ate a yummy {item.get_name()}.'
             else:  
-                self.int_message = f'{item.get_name()} is not edible'
+                self.int_message = f'{item.get_name()} is not edible.'
         else:  # The item the user is trying to eat is not in their inventory
-            self.int_message = f'You are not holding {name}'
+            self.int_message = f'You are not holding {name}.'
         return self.int_message
 
     def game_over(self):

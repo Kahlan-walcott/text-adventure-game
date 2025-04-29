@@ -58,21 +58,20 @@ class Game:
         self.bathroom.add_neighbor('east', self.bedroom)
         self.bathroom.add_neighbor('south', self.maids_chamber)
         # Attic
-        self.attic.add_neighbor('south', self.bathroom)
+        self.attic.add_neighbor('down', self.bathroom)
         # Bedroom
-        self.bedroom.add_neighbor('north', self.attic)
+        self.bedroom.add_neighbor('up', self.attic)
         self.bedroom.add_neighbor('west', self.bathroom)
-        self.bedroom.add_neighbor('south', self.library)
+        self.bedroom.add_neighbor('down', self.library)
         # Ballroom
         self.ballroom.add_neighbor('down', self.kitchen)
         self.ballroom.add_neighbor('east', self.library)
-        self.ballroom.add_neighbor('south', self.war_room)
+        self.ballroom.add_neighbor('down', self.war_room)
         # Library
         self.library.add_neighbor('west', self.ballroom)
-        self.library.add_neighbor('south', self.war_room)
-        self.library.add_neighbor('north', self.bedroom)
+        self.library.add_neighbor('down', self.war_room)
+        self.library.add_neighbor('up', self.bedroom)
         # War room
-        self.war_room.add_neighbor('north', self.library)
         self.war_room.add_neighbor('up', self.ballroom)
 
     def go(self, dirs):
@@ -100,11 +99,11 @@ class Game:
                             'look: allows you to find out where you are \n'
                             'list: allows you to see what items are in your inventory \n'
                             'eat item: allows you to eat an edible item \nswing: allows you to swing the sword \n'
-                            'lay: allows you to lay in the bed\n')
+                            'lay: allows you to lay in the bed')
 
     def parse_command(self):
         """Gets input from the user and splits it into two words."""
-        words = input('Enter>>> ').split()
+        words = input('\nEnter>>> ').split()
         first = words[0].lower()
         if len(words) > 1:
             second = words[1].lower()
@@ -132,7 +131,7 @@ class Game:
                             'look: allows you to find out where you are \n'
                             'list: allows you to see what items are in your inventory \n'
                             'eat item: allows you to eat an edible item \nswing: allows you to swing the sword \n'
-                            'lay: allows you to lay in the bed\n')
+                            'lay: allows you to lay in the bed')
             elif first == 'auto':
                 Game().auto_win()
                 break
@@ -223,15 +222,15 @@ class Game:
         elif self.current_loc == self.attic:  
             # updated the message to what the user can do in the attic and where to go next
             self.int_message = ('\nDirections:'
-                                '\nSouth: Bathroom')
+                                '\nDown: Bathroom')
 
         elif self.current_loc == self.bedroom:  
             # updates the message to what the user can do in the bedroom and where to go next
             if self.key not in self.lis_item:
                 self.int_message = ('There is nothing for you here. Go to another room.'
                                     '\nDirections:'
-                                    '\nNorth: Attic'
-                                    '\nSouth: Library'
+                                    '\nUp: Attic'
+                                    '\nDown: Library'
                                     '\nWest: Bathroom')
             if self.key in self.lis_item:
                 self.int_message = 'Type lay to complete the game.'
@@ -240,21 +239,20 @@ class Game:
             # updates the message to what the user can do in the ballroom and where to go next
             self.int_message = ('Go pick up the key and bring it to the bedroom.'
                                 '\nDirections:'
-                                '\nSouth: War Room'
+                                '\nDown: War Room'
                                 '\nEast: Library'
                                 '\nDown: Kitchen')
         elif self.current_loc == self.library:  
             # updates the message to what the user can do in the library and where to go next
             self.int_message = ('Go pickup the book and go to another room.'
                                 '\nDirections:'
-                                '\nNorth: Bedroom'
-                                '\nSouth: War Room')
+                                '\nUp: Bedroom'
+                                '\nDown: War Room')
         elif self.current_loc == self.war_room:  
             # updates the message to what the user can do in the war room and where to go next
             self.int_message = ('Go pick up the sword and go to another room. If you have gone to all of the rooms and '
                                 'have the key in your inventory go back to the bedroom and lay in the bed.'
                                 '\nDirections'
-                                '\nNorth: Library'
                                 '\nUp: Ballroom')
         return self.int_message
 
@@ -262,14 +260,14 @@ class Game:
         """Returns a string of what is in the users inventory."""
         statement = f'You are holding: \n'
         for item in self.lis_item:
-            statement += f'{item.get_description()}\n'
+            statement += f'{item.get_description()}'
         return statement
 
     def pickup(self):
         """Keeps track of if an item is in the location the user is in and returns the appropriate message"""
         if self.current_loc.has_item():
             # checks if the current location has an item and returns the items name that the user picked up.
-            self.int_message = f'You are holding a {self.current_loc.get_item().get_name()}'
+            self.int_message = f'You are holding a {self.current_loc.get_item().get_name()}.'
             temp = self.current_loc.get_item()
             if temp.get_weight() >= 50:  
                 # checks the items weight, if it is over 50 it is too heavy to pick up
@@ -348,11 +346,11 @@ class Game:
         g.look()
         print('You are', g.get_message())
         print(g.help())
-        g.go('south')
+        g.go('down')
         print(g.get_message())
         print(g.help())
         print(g.pickup())
-        g.go('south')
+        g.go('down')
         print(g.get_message())
         print(g.help())
         print(g.pickup())
@@ -364,7 +362,7 @@ class Game:
         g.go('east')
         print(g.get_message())
         print(g.help())
-        g.go('north')
+        g.go('up')
         print(g.get_message())
         g.lay_in_bed()
         g.first = 'lay'

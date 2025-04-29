@@ -159,11 +159,13 @@ class Game:
                     print(self.swing_sword())
                 elif second != 'sword':
                     print(f'You can\'t swing a {second}')
+                if self.current_loc == self.attic:
+                    print('You killed a gigantic harry spider.')
 
             elif first == 'lay':
                 # allows the user to lay down at the location if they can
                 self.lay_in_bed()
-                 if self.current_loc != self.bedroom:
+                if self.current_loc != self.bedroom:
                     print('There is nothing for you to lay on here.')
 
             elif first == 'drop' and second == 'sandwich' or second == 'key' or second == 'sword':
@@ -179,10 +181,6 @@ class Game:
                 # allows the user to eat an edible item
                 print(self.eat(second))
 
-            elif first == 'quit':
-                # allows the user to end the game 
-                print('You chose to end the game.')
-                break
             else:  
                 # accounts for all the invalid inputs and displays the commands that can be typed
                 print('That is not a valid command. \nTry typing: \ngo north, west, east, south, up, or down - to go to'
@@ -195,6 +193,9 @@ class Game:
             first, second = self.parse_command()
             self.first = first
             self.second = second
+        if self.first == 'quit':
+            # allows the user to end the game 
+            print('You chose to end the game.')
 
     def look(self):
         """Updates the message with the current locations description and then returns it"""
@@ -221,8 +222,7 @@ class Game:
                                 '\nEast: Bedroom')
         elif self.current_loc == self.attic:  
             # updated the message to what the user can do in the attic and where to go next
-            self.int_message = ('There is nothing for you here. Go to another room.'
-                                '\nDirections:'
+            self.int_message = ('\nDirections:'
                                 '\nSouth: Bathroom')
 
         elif self.current_loc == self.bedroom:  
